@@ -1,4 +1,4 @@
-use raylib_ffi::{colors::RAYWHITE, rl_str, Color, InitWindow};
+use raylib_ffi::{rl_str, InitWindow};
 
 pub struct Window {
     window: BaseWindow,
@@ -7,7 +7,6 @@ pub struct Window {
 struct BaseWindow {
     name: String,
     size: (i32, i32),
-    refresh_color: Color,
 }
 
 impl Window {
@@ -39,7 +38,6 @@ impl Default for BaseWindow {
         Self {
             name: "Hello".to_owned(),
             size: (0, 0),
-            refresh_color: RAYWHITE,
         }
     }
 }

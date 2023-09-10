@@ -1,6 +1,5 @@
 use raylib_ffi::{
-    colors::{GREEN, RAYWHITE, RED},
-    BeginDrawing, BeginMode3D, Camera3D, ClearBackground, DrawGrid, EndMode3D, UpdateCamera,
+    colors::{GREEN, RAYWHITE, RED}, BeginMode3D, Camera3D, ClearBackground, DrawGrid, EndMode3D, UpdateCamera,
     Vector3,
 };
 
