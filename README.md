@@ -9,3 +9,8 @@ Rayengine is targeted to be just another 3D game engine.. using raylib is cheati
 
 ## Screenshot
 ![Rayengine](./assets/rayengine-p1.png)
+
+## GOALS:
+- [ ] stable 3D environment
+- [ ] good UI
+- [ ] optional modules [libvideo, lib2d, ...] 
