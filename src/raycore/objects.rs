@@ -1,4 +1,8 @@
-use raylib_ffi::{enums::CameraProjection, Camera, Color, DrawCubeV, DrawCubeWiresV, Vector3};
+use raylib_ffi::{
+    colors::{GREEN, RED},
+    enums::CameraProjection,
+    Camera, Color, DrawCubeV, DrawCubeWiresV, Vector3,
+};
 
 pub enum CameraMode {
     CameraFree,
@@ -67,5 +71,24 @@ impl Cube {
             color,
             outline,
         }
+    }
+}
+
+impl Default for Cube {
+    fn default() -> Self {
+        Cube::new(
+            Vector3 {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
+            },
+            Vector3 {
+                x: 2.0,
+                y: 2.0,
+                z: 2.0,
+            },
+            RED,
+            Some(GREEN),
+        )
     }
 }

@@ -1,4 +1,4 @@
-pub mod draw;
+pub mod logic;
 pub mod objects;
 pub mod prelude;
 pub mod scene;

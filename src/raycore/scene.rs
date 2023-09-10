@@ -1,55 +1,41 @@
 use raylib_ffi::{
-    colors::{GREEN, RAYWHITE, RED}, BeginMode3D, Camera3D, ClearBackground, DrawGrid, EndMode3D, UpdateCamera,
-    Vector3,
+    colors::RAYWHITE, enums::KeyboardKey, BeginMode3D, Camera3D, ClearBackground, DisableCursor,
+    DrawGrid, EnableCursor, EndMode3D, IsCursorHidden, IsKeyDown, IsKeyPressed, SetTargetFPS,
+    UpdateCamera,
 };
 
-use super::{
-    objects::{CameraMode, Object, SceneCam},
-    prelude::Cube,
-};
+use super::objects::{CameraMode, Object, SceneCam};
 
-pub enum ObjectType {
-    CUBE,
-}
 pub struct Scene {
     pub objects: Vec<Box<dyn Object>>,
     pub maincam: SceneCam,
+    pub target_fps: i32,
 }
 
 impl Scene {
-    pub fn new() -> Self {
+    pub fn new(target_fps: i32) -> Self {
         Self {
             objects: Vec::new(),
             maincam: SceneCam::new(CameraMode::CameraFree),
+            target_fps,
         }
     }
-    pub fn add_object(&mut self, objtype: ObjectType) {
-        match objtype {
-            ObjectType::CUBE => self.objects.push(Box::new(Cube::new(
-                Vector3 {
-                    x: 0.0,
-                    y: 0.0,
-                    z: 0.0,
-                },
-                Vector3 {
-                    x: 2.0,
-                    y: 2.0,
-                    z: 2.0,
-                },
-                RED,
-                Some(GREEN),
-            ))),
-        }
+    pub fn add_object(&mut self, obj: Box<dyn Object>) {
+        self.objects.push(obj);
     }
     pub fn render(&mut self) {
         unsafe {
+            SetTargetFPS(self.target_fps);
             raylib_ffi::BeginDrawing();
             {
-                UpdateCamera(
-                    self.maincam.camera.as_mut() as *mut Camera3D,
-                    raylib_ffi::enums::CameraMode::Free as i32,
-                );
+                if IsCursorHidden() {
+                    UpdateCamera(
+                        self.maincam.camera.as_mut() as *mut Camera3D,
+                        raylib_ffi::enums::CameraMode::Free as i32,
+                    );
+                }
                 ClearBackground(RAYWHITE);
+                self.handle_inputs();
                 BeginMode3D(*self.maincam.camera.as_ref());
                 DrawGrid(255, 1.0);
                 for obj in &self.objects {
@@ -59,6 +45,22 @@ impl Scene {
                 EndMode3D();
             }
             raylib_ffi::EndDrawing();
+        }
+    }
+    pub fn handle_inputs(&mut self) {
+        unsafe {
+            if IsKeyDown(KeyboardKey::LeftShift as i32) {
+                self.target_fps = 200;
+            } else {
+                self.target_fps = 60;
+            }
+            if IsKeyPressed(KeyboardKey::LeftAlt as i32) {
+                if IsCursorHidden() {
+                    EnableCursor();
+                } else {
+                    DisableCursor();
+                }
+            }
         }
     }
 }

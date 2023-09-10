@@ -1,13 +1,12 @@
 mod raycore;
 use raycore::prelude::*;
-use raylib_ffi::{SetTargetFPS, WindowShouldClose};
+use raylib_ffi::WindowShouldClose;
 
 fn main() {
     Window::new().name("Hello").size((1920, 1080)).build();
-    let mut scene = Scene::new();
-    scene.add_object(ObjectType::CUBE);
+    let mut scene = Scene::new(60);
+    scene.add_object(Box::new(Cube::default()));
     unsafe {
-        SetTargetFPS(60);
         while !WindowShouldClose() {
             scene.render();
         }

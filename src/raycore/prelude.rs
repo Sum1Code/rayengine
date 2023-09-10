@@ -1,1 +1,1 @@
-pub use super::{draw::*, objects::*, scene::*, window::*};
+pub use super::{objects::*, scene::*, window::*};
