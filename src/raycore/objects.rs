@@ -105,12 +105,7 @@ impl SceneCam {
                         self.selector.ray = GetMouseRay(GetMousePosition(), *self.camera as Camera);
                         self.selector.ray_collison =
                             GetRayCollisionBox(self.selector.ray, obj.get_bbox());
-                        obj.set_hit_by_ray(if self.selector.ray_collison.hit {
-                            true
-                        } else {
-                            false
-                        });
-                        obj.set_hit_by_ray(true);
+                        obj.set_hit_by_ray( self.selector.ray_collison.hit );
                     } else {
                         obj.set_hit_by_ray(false);
                         self.selector.ray_collison.hit = false
