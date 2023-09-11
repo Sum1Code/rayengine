@@ -1,7 +1,8 @@
 use raylib_ffi::{
-    colors::RAYWHITE, enums::KeyboardKey, BeginMode3D, Camera3D, ClearBackground, DisableCursor,
-    DrawGrid, EnableCursor, EndMode3D, IsCursorHidden, IsKeyDown, IsKeyPressed, SetTargetFPS,
-    UpdateCamera,
+    colors::{MAROON, RAYWHITE},
+    enums::KeyboardKey,
+    BeginMode3D, Camera3D, ClearBackground, DisableCursor, DrawGrid, DrawRay, EnableCursor,
+    EndMode3D, IsCursorHidden, IsKeyDown, IsKeyPressed, SetTargetFPS, UpdateCamera,
 };
 
 use super::objects::{CameraMode, Object, SceneCam};
@@ -34,6 +35,7 @@ impl Scene {
                         raylib_ffi::enums::CameraMode::Free as i32,
                     );
                 }
+                self.maincam.handle_collision(&mut self.objects);
                 ClearBackground(RAYWHITE);
                 self.handle_inputs();
                 BeginMode3D(*self.maincam.camera.as_ref());
@@ -41,7 +43,7 @@ impl Scene {
                 for obj in &self.objects {
                     obj.drawobj()
                 }
-
+                DrawRay(self.maincam.selector.ray, MAROON);
                 EndMode3D();
             }
             raylib_ffi::EndDrawing();
